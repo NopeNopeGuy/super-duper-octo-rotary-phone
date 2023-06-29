@@ -8,12 +8,15 @@ jobs:
       - run: curl https://raw.githubusercontent.com/akhilnarang/scripts/master/setup/android_build_env.sh | sh
       - run: wget https://github.com/maximumadmin/zramd/releases/download/v0.9.2/zramd_amd64.deb
       - run: sudo apt install ./zramd_amd64.deb -y
-      - run: sudo apt install rclone
+      - run: sudo apt install rclone aria2
       - run: sudo zramd start
       - run: echo "$PWD"
       - run: git config --global user.name 'Warren Turkal'
       - run: git config --global user.email 'wt@example.com'
       - run: git config --global color.ui false
+      - run: wget https://raw.githubusercontent.com/Cretezy/Swap/master/swap.sh -O swap
+      - run: sudo sh ./swap 16G
+      - run: free -h
       - run: chmod +x ./download.sh
       - run: chmod +x ./ac.sh
       - run: ./download.sh
