@@ -6,18 +6,14 @@ jobs:
     steps:
       - checkout
       - run: curl https://raw.githubusercontent.com/akhilnarang/scripts/master/setup/android_build_env.sh | sh
-      - run: wget https://github.com/maximumadmin/zramd/releases/download/v0.9.2/zramd_amd64.deb
-      - run: sudo apt install ./zramd_amd64.deb -y
-      - run: sudo apt install rclone aria2
-      - run: sudo zramd start
-      - run: echo "$PWD"
-      - run: git config --global user.name 'Warren Turkal'
-      - run: git config --global user.email 'wt@example.com'
-      - run: git config --global color.ui false
-      - run: wget https://raw.githubusercontent.com/Cretezy/Swap/master/swap.sh -O swap
-      - run: sudo sh ./swap 16G
-      - run: free -h
-      - run: chmod +x ./download.sh
-      - run: chmod +x ./ac.sh
-      - run: ./download.sh
-      - run: ./ac.sh
+      - run: git clone https://gitlab.com/OrangeFox/sync.git # (or, using ssh, "git clone git@gitlab.com:OrangeFox/sync.git")
+      - run: cd sync/
+      - run: ./orangefox_sync.sh --branch 12.1 --path ~/fox_12.1
+      - run: cd ~/fox_12.1
+      - run: git clone https://gitlab.com/NopeNopeGuy/whyred-4-19-fbe device/xiaomi/whyred
+      - run: export LC_ALL="C"
+      - run: export FOX_BUILD_DEVICE=whyred
+      - run: export OF_FORCE_PREBUILT_KERNEL=1
+      - run: source build/envsetup.sh
+      - run: lunch twrp_whyred-eng && mka adbd recoveryimage
+      - run: curl --upload-file out/target/product/whyred/Orange*.img https://transfer.sh/Orangefox
